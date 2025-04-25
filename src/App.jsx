@@ -11,8 +11,16 @@ import SingleProducts from './Pages/SingleProducts'
 import Contact from './Pages/Contact'
 import Cart from './Pages/Cart'
 import ErrorPage from './Pages/Errorpage'
+import { useState } from 'react'
+
 
 const App = () => {
+  const [categories, setCategories] = useState([
+    { id: 1, name: 'Watches', describtion: 'Elegant and stylish timepieces to suit every occasion.' },
+    { id: 2, name: 'Shoes', describtion: 'Comfortable and trendy footwear for all-day wear.' },
+    { id: 3, name: 'Accessories', describtion: 'Complete your look with our exclusive range of accessories.' }
+  ]
+  );
   return (
     <div>
      <Header/>
