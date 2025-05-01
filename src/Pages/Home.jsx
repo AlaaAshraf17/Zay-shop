@@ -164,7 +164,7 @@ const Home = () => {
                 />
               </div>
               <h3 className="text-lg font-semibold text-gray-800 mb-2">Watches</h3>
-              <Link to="/shop/watches" className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300">
+              <Link to="/products?category=Watches" className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300">
                 Go Shop
               </Link>
             </div>
@@ -179,7 +179,7 @@ const Home = () => {
                 />
               </div>
               <h3 className="text-lg font-semibold text-gray-800 mb-2">Shoes</h3>
-              <Link to="/shop/shoes" className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300">
+              <Link to="/products?category=Shoes" className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300">
                 Go Shop
               </Link>
             </div>
@@ -189,12 +189,12 @@ const Home = () => {
               <div className="rounded-full overflow-hidden shadow-md w-48 h-48 mb-4">
                 <img
                   src="/category_img_03.jpg" 
-                  alt="Accessories"
+                  alt="Sunglasses"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Accessories</h3>
-              <Link to="/shop/accessories" className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300">
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">Sunglasses</h3>
+              <Link to="/products?category=Sunglasses" className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300">
                 Go Shop
               </Link>
             </div>
