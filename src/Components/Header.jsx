@@ -9,9 +9,13 @@ import { FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext'; // adjust path
+
+
 
 
 const Header = () => {
+  const { getCartCount } = useCart();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   return (
     <div className="bg-black text-white py-1.5 md:py-2 w-full fixed top-0 left-0 z-50">
@@ -84,13 +88,22 @@ const Header = () => {
           </button>
 
          
-          <div className="relative">
-            <MdShoppingCart className="text-2xl text-gray-800 cursor-pointer hover:text-[#59ab6e] transition-colors" />
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-              0
-            </span>
+          <div className="relative flex items-center space-x-2"> 
+            <div className='relative '>
+             <MdShoppingCart className="text-2xl text-gray-800 cursor-pointer hover:text-[#59ab6e] transition-colors" />
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+               {getCartCount()}
+               </span>
+            </div>
+            <svg className="w-5 h-5 cursor-pointer hover:fill-[#59ab6e] transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/>
+            </svg>
+            
+
           </div>
+
         </div>
+
 
       
         {isMobileMenuOpen && (
