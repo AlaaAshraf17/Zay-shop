@@ -105,7 +105,8 @@ function ProductCard({ product }) {
       <div className="p-6">
         <div className="flex items-start justify-between">
           <div>
-            <h2 className="text-2xl font-bold">{product.name}</h2>
+            <h2 className="text-2xl font-bold font-serif">{product.name}</h2>
+            <p className="text-gray-800 mt-2">{product.description}</p>
             <span className="text-gray-600 text-lg mt-2">${product.price.toFixed(2)}</span>
           </div>
           <div className="flex items-center gap-1 mt-2">
