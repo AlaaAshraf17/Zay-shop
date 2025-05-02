@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import ProductCard from "../Components/ProductCard";
 
 const Home = ({ products }) => {
-  const featuredProducts = products.filter(product => product.featured);
+  const featuredProducts = products.filter((product) => product.best_seller); 
 
   return (
     <div className="w-full pt-10">
@@ -161,23 +161,23 @@ const Home = ({ products }) => {
           </div>
         </div>
       </section>
-
       <section className="py-10 bg-gray-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">Featured Product</h2>
-            <p className="text-gray-600">
-              Reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-              Excepteur sint occaecat cupidatat non proident.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Featured Product</h2>
+          <p className="text-gray-600">
+            Reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            Excepteur sint occaecat cupidatat non proident.
+          </p>
         </div>
-      </section>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </div>
+    </section>
     </div>
   );
 };

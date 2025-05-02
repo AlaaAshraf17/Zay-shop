@@ -18,9 +18,23 @@ const App = () => {
   useEffect(() => {
     fetch('https://bloom-separate-chard.glitch.me/products')
       .then(res => res.json())
-      .then(data => setProducts(data))
-      .catch(err => console.error("Error fetching products:", err))
-  }, [])
+      .then(data => {
+        
+        const transformed = data.map((product, index) => ({
+          ...product,
+          id: product.id || index, 
+          name: product.title || "No name",
+          images: [product.image], 
+          price: parseFloat(product.price),
+          rating: product.rating?.rate || 0,
+          best_seller: index < 3 
+        }));
+  
+        setProducts(transformed);
+      })
+      .catch(err => console.error("Error fetching products:", err));
+  }, []);
+  
 
   return (
     <div>
