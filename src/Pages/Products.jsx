@@ -19,7 +19,7 @@ export default function Products() {
 
  
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
+    fetch("https://back-end-ten-alpha.vercel.app/api/products")
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => console.error("Error fetching products:", err));

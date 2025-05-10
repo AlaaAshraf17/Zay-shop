@@ -16,7 +16,7 @@ const App = () => {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/products')
+    fetch('https://back-end-ten-alpha.vercel.app/api/products')
       .then(res => res.json())
       .then(data => {
         const transformed = data.map((product, index) => ({
