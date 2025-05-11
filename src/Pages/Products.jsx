@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import ProductCard from "../Components/ProductCard";
 import { useLocation, useNavigate } from "react-router-dom";
 
+
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }

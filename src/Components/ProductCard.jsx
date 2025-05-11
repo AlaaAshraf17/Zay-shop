@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext"; 
 
 
 function ProductCard({ product }) {
   const navigate = useNavigate();
+  const { addToCart } = useCart();
+
+  
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   
@@ -27,7 +31,9 @@ function ProductCard({ product }) {
   const handleCardClick = () => {
     navigate(`/singleproducts/${product._id}`);
   };
-  
+    const handleAddToCart = () => {
+    addToCart(product, 1); 
+  };
 
   return (
     <div 
@@ -46,6 +52,13 @@ function ProductCard({ product }) {
           alt={`${product.name}`}
           className="w-full h-full object-contain"
         />
+        <button 
+         onClick={handleAddToCart} 
+         className="absolute bottom-4 left-4 bg-green-600 text-white px-4 py-2 rounded-lg"
+        >
+         Add to Cart
+        </button>
+
         
         {/* Navigation arrows (only show if multiple images) */}
         {product.images.length > 1 && (
