@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
-import myproducts from "../data/products";
+import { useState, useEffect } from "react";
 import { FaTruckFast } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
 import { IoAddSharp } from "react-icons/io5";
@@ -10,28 +9,46 @@ import ShoeSizeDropdown from "../Components/ShoeSizeDropdown";
 
 export default function SingleProductPage() {
   const { productId } = useParams();
-  const product = myproducts.find((p) => p.id === parseInt(productId));
+  const [product, setProduct] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState("");
   const [selectedSize, setSelectedSize] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const { addToCart } = useCart();
 
-  if (!product) return <div className="p-8">Product not found</div>;
+  useEffect(() => {
+    fetch(`https://back-end-ten-alpha.vercel.app/api/products/${productId}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Product not found");
+        return res.json();
+      })
+      .then((data) => {
+        setProduct(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, [productId]);
+
+  if (loading) return <div className="p-8">Loading product...</div>;
+  if (!product) return <div className="p-8 text-red-500">Product not found</div>;
 
   const isShoe = product.category === "Shoes";
   const isSizeMissing = isShoe && !selectedSize;
 
   const nextImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === product.images.length - 1 ? 0 : prevIndex + 1
+    setCurrentImageIndex((prev) =>
+      prev === product.images.length - 1 ? 0 : prev + 1
     );
   };
 
   const prevImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? product.images.length - 1 : prevIndex - 1
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? product.images.length - 1 : prev - 1
     );
   };
 
@@ -42,28 +59,24 @@ export default function SingleProductPage() {
     }
 
     setQuantity((prev) => {
-      const newQuantity = prev + 1;
-      if (product.stock_quantity && newQuantity > product.stock_quantity) {
-        setError(`Only ${product.stock_quantity} available in stock`);
+      const newQty = prev + 1;
+      if (product.stock_quantity && newQty > product.stock_quantity) {
+        setError(`Only ${product.stock_quantity} in stock`);
         return product.stock_quantity;
       }
       setError("");
-      return newQuantity;
+      return newQty;
     });
   };
 
   const handleDecrement = () => {
-    setQuantity((prev) => {
-      const newQuantity = Math.max(1, prev - 1);
-      setError("");
-      return newQuantity;
-    });
+    setQuantity((prev) => Math.max(1, prev - 1));
+    setError("");
   };
 
   const handleAddToCart = () => {
     if (error || isSizeMissing) return;
     addToCart(product, quantity, selectedSize);
-    console.log(`Added ${quantity} of ${product.name} to cart`);
     setQuantity(1);
   };
 
@@ -108,7 +121,7 @@ export default function SingleProductPage() {
           )}
         </div>
 
-        {/* Details Section */}
+        {/* Product Details */}
         <div className="bg-white rounded-lg shadow-md p-5">
           <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
           <p className="text-gray-700 mb-4">{product.description}</p>
@@ -138,17 +151,17 @@ export default function SingleProductPage() {
             {product.in_stock ? "In Stock" : "Out of Stock"}
           </p>
 
-          {/* Shoe Size Dropdown */}
-          <div className="mb-5">
-            {isShoe && (
+          {/* Shoe Size */}
+          {isShoe && (
+            <div className="mb-5">
               <ShoeSizeDropdown
                 selectedSize={selectedSize}
                 setSelectedSize={setSelectedSize}
               />
-            )}
-          </div>
+            </div>
+          )}
 
-          {/* Quantity Selector */}
+          {/* Quantity Controls */}
           <div className="flex">
             <button
               onClick={handleDecrement}
@@ -185,7 +198,7 @@ export default function SingleProductPage() {
             </div>
           )}
 
-          {/* Buttons */}
+          {/* Add to Cart & Buy Buttons */}
           <button
             onClick={handleAddToCart}
             className="w-full py-2 bg-green-500 text-white font-semibold rounded-md transition flex justify-center items-center gap-2 mt-4 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-green-600"
@@ -203,7 +216,7 @@ export default function SingleProductPage() {
 
           {/* Shipping Info */}
           <div className="flex items-center gap-3 mt-4 text-black border-t pt-4 border-gray-200">
-            <FaTruckFast className="text-xl " />
+            <FaTruckFast className="text-xl" />
             <p>Shipping immediately tomorrow morning</p>
           </div>
           <p className="text-gray-700 mt-1 text-sm">
@@ -214,9 +227,3 @@ export default function SingleProductPage() {
     </div>
   );
 }
-
-
-
-
-
-

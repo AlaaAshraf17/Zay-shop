@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import ProductCard from "../Components/ProductCard";
-import myproducts from "../data/products";
 import { useLocation, useNavigate } from "react-router-dom";
 
 
@@ -12,19 +11,26 @@ export default function Products() {
   const query = useQuery();
   const navigate = useNavigate();
 
-  // Get category from query params, fallback to "All"
   const initialCategory = query.get("category") || "All";
 
   // State
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [sortBy, setSortBy] = useState("");
+  const [products, setProducts] = useState([]);
 
-  // Sync URL when category changes from dropdown
+ 
+  useEffect(() => {
+    fetch("https://back-end-ten-alpha.vercel.app/api/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data))
+      .catch((err) => console.error("Error fetching products:", err));
+  }, []);
+
+ 
   useEffect(() => {
     navigate(`/products?category=${selectedCategory}`);
   }, [selectedCategory]);
 
-  // Handle dropdown category change
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
   };
@@ -33,13 +39,13 @@ export default function Products() {
     setSortBy(e.target.value);
   };
 
-  // Filter by category
+
   const filteredProducts =
     selectedCategory === "All"
-      ? myproducts
-      : myproducts.filter((product) => product.category === selectedCategory);
+      ? products
+      : products.filter((product) => product.category === selectedCategory);
 
-  // Sort logic
+
   let productsToDisplay = [...filteredProducts];
 
   if (sortBy === "best-selling") {
@@ -64,7 +70,6 @@ export default function Products() {
 
       {/* Filter + Sort Toolbar */}
       <div className="flex flex-col sm:flex-row justify-between gap-4 p-4 bg-gray-50 rounded-lg shadow-sm mb-8">
-        {/* Filter by Category */}
         <div className="flex items-center gap-2">
           <label className="text-gray-700 font-medium">Filter by:</label>
           <select
@@ -79,7 +84,6 @@ export default function Products() {
           </select>
         </div>
 
-        {/* Sort by */}
         <div className="flex items-center gap-2">
           <label className="text-gray-700 font-medium">Sort by:</label>
           <select
@@ -107,9 +111,3 @@ export default function Products() {
     </div>
   );
 }
-
-
-
-
-
-

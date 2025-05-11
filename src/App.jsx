@@ -20,24 +20,23 @@ const App = () => {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
-    fetch('https://bloom-separate-chard.glitch.me/products')
+    fetch('https://back-end-ten-alpha.vercel.app/api/products')
       .then(res => res.json())
       .then(data => {
-        
         const transformed = data.map((product, index) => ({
           ...product,
-          id: product.id || index, 
-          name: product.title || "No name",
-          images: [product.image], 
+          id: product._id || index,
+          name: product.name || "No name",
+          images: product.images || [],
           price: parseFloat(product.price),
-          rating: product.rating?.rate || 0,
-          best_seller: index < 3 
+          rating: product.rating || 0,
+          best_seller: product.best_seller || false
         }));
-  
         setProducts(transformed);
       })
       .catch(err => console.error("Error fetching products:", err));
   }, []);
+  
   
 
   return (

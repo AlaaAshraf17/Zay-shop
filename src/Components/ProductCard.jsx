@@ -29,7 +29,7 @@ function ProductCard({ product }) {
 
   // Handle click on the whole card
   const handleCardClick = () => {
-    navigate(`/singleproducts/${product.id}`);
+    navigate(`/singleproducts/${product._id}`);
   };
     const handleAddToCart = () => {
     addToCart(product, 1); 
