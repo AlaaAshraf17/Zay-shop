@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+
 import Header from './Components/Header'
 import Footer from './Components/Footer'
 import { Route, Routes } from 'react-router-dom'
@@ -11,6 +12,9 @@ import SingleProducts from './Pages/SingleProducts'
 import Contact from './Pages/Contact'
 import Cart from './Pages/Cart'
 import ErrorPage from './Pages/Errorpage'
+import { CartProvider } from './context/CartContext'
+
+
 
 const App = () => {
   const [products, setProducts] = useState([])
@@ -37,7 +41,9 @@ const App = () => {
   
 
   return (
+   <CartProvider> 
     <div>
+      
       <Header />
 
       <Routes>
@@ -54,6 +60,7 @@ const App = () => {
 
       <Footer />
     </div>
+   </CartProvider>
   )
 }
 

@@ -3,6 +3,7 @@ import ProductCard from "../Components/ProductCard";
 import myproducts from "../data/products";
 import { useLocation, useNavigate } from "react-router-dom";
 
+
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
